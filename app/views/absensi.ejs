@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Absensi - Sistem Absensi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #4F46E5; --secondary: #10B981; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-custom {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+            border: none;
+            overflow: hidden;
+            margin-bottom: 30px;
+            animation: fadeInUp 0.6s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-header-custom {
+            background: linear-gradient(135deg, var(--secondary), #34D399);
+            color: white;
+            padding: 25px 30px;
+            border: none;
+        }
+        .card-header-custom h4 { margin: 0; font-weight: 700; font-size: 1.6rem; }
+        .form-control-custom, .form-select-custom {
+            border-radius: 12px;
+            border: 2px solid #E5E7EB;
+            padding: 14px 18px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        .form-control-custom:focus, .form-select-custom:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
+        .table-custom {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .table-custom thead {
+            background: linear-gradient(135deg, #374151, #1F2937);
+            color: white;
+        }
+        .table-custom thead th {
+            padding: 18px 15px;
+            font-weight: 600;
+            border: none;
+        }
+        .table-custom tbody td {
+            padding: 16px 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid #F3F4F6;
+        }
+        .table-custom tbody tr:hover { background: #F9FAFB; }
+        .badge-custom {
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .badge-hadir { background: #D1FAE5; color: #065F46; }
+        .badge-izin { background: #FEF3C7; color: #92400E; }
+        .badge-alpha { background: #FEE2E2; color: #991B1B; }
+        .btn-custom {
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.95rem;
+        }
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--secondary), #34D399);
+            color: white;
+        }
+        .btn-primary-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+        }
+        .btn-secondary-custom { background: #6B7280; color: white; }
+        .btn-warning-custom {
+            background: linear-gradient(135deg, #F59E0B, #FBBF24);
+            color: white;
+        }
+        .btn-danger-custom {
+            background: linear-gradient(135deg, #EF4444, #F87171);
+            color: white;
+        }
+        .stats-badge {
+            background: white;
+            color: var(--secondary);
+            padding: 15px 25px;
+            border-radius: 15px;
+            display: inline-block;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .modal-content { border-radius: 20px; border: none; }
+        .modal-header {
+            background: linear-gradient(135deg, var(--secondary), #34D399);
+            color: white;
+            border-radius: 20px 20px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navbar -->
+        <nav class="navbar-custom">
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <span class="navbar-brand">
+                    <i class="fas fa-graduation-cap"></i> Sistem Absensi
+                </span>
+                <div>
+                    <a href="/" class="btn btn-secondary-custom me-2">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="/mahasiswa" class="btn btn-primary-custom">
+                        <i class="fas fa-users"></i> Mahasiswa
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Form Input Absensi -->
+        <div class="card-custom">
+            <div class="card-header-custom">
+                <h4><i class="fas fa-clipboard-list me-2"></i>Input Absensi Baru</h4>
+            </div>
+            <div class="card-body p-4">
+                <form action="/absensi/add" method="POST">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">
+                                <i class="fas fa-user me-2" style="color: var(--secondary);"></i>Pilih Mahasiswa
+                            </label>
+                            <select name="mahasiswa_id" class="form-select form-select-custom" required>
+                                <option value="">-- Pilih Mahasiswa --</option>
+                                <% mahasiswa.forEach(m => { %>
+                                    <option value="<%= m.id %>"><%= m.nama %> (<%= m.nim %>)</option>
+                                <% }) %>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">
+                                <i class="fas fa-calendar me-2" style="color: var(--secondary);"></i>Tanggal
+                            </label>
+                            <input type="date" name="tanggal" class="form-control form-control-custom" 
+                                   value="<%= new Date().toISOString().split('T')[0] %>" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">
+                                <i class="fas fa-check-circle me-2" style="color: var(--secondary);"></i>Status Kehadiran
+                            </label>
+                            <select name="status" class="form-select form-select-custom" required>
+                                <option value="">-- Pilih Status --</option>
+                                <option value="Hadir">✓ Hadir</option>
+                                <option value="Izin">⚠ Izin</option>
+                                <option value="Alpha">✗ Alpha</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary-custom">
+                            <i class="fas fa-save me-2"></i>Simpan Absensi
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tabel Absensi -->
+        <div class="card-custom">
+            <div class="card-header-custom">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4><i class="fas fa-clipboard-check me-2"></i>Rekap Absensi Mahasiswa</h4>
+                    <span class="stats-badge">
+                        <i class="fas fa-check-circle me-2"></i><%= absensi.length %> Record
+                    </span>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <% if (absensi.length > 0) { %>
+                    <div class="table-responsive">
+                        <table class="table table-custom">
+                            <thead>
+                                <tr>
+                                    <th width="8%">No</th>
+                                    <th width="15%">NIM</th>
+                                    <th width="25%">Nama</th>
+                                    <th width="18%">Tanggal</th>
+                                    <th width="14%">Status</th>
+                                    <th width="20%">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% absensi.forEach((a, index) => { %>
+                                    <tr>
+                                        <td><strong>#<%= index + 1 %></strong></td>
+                                        <td><span class="badge badge-custom badge-hadir"><%= a.nim %></span></td>
+                                        <td><i class="fas fa-user-circle me-2" style="color: var(--primary);"></i><%= a.nama %></td>
+                                        <td><i class="far fa-calendar-alt me-2" style="color: var(--secondary);"></i><%= new Date(a.tanggal).toLocaleDateString('id-ID') %></td>
+                                        <td>
+                                            <% if (a.status === 'Hadir') { %>
+                                                <span class="badge badge-custom badge-hadir">
+                                                    <i class="fas fa-check-circle me-1"></i>Hadir
+                                                </span>
+                                            <% } else if (a.status === 'Izin') { %>
+                                                <span class="badge badge-custom badge-izin">
+                                                    <i class="fas fa-exclamation-circle me-1"></i>Izin
+                                                </span>
+                                            <% } else { %>
+                                                <span class="badge badge-custom badge-alpha">
+                                                    <i class="fas fa-times-circle me-1"></i>Alpha
+                                                </span>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-warning-custom btn-sm me-1" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#editModal<%= a.id %>">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-danger-custom btn-sm" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#deleteModal<%= a.id %>">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Modal Edit -->
+                                    <div class="modal fade" id="editModal<%= a.id %>" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">
+                                                        <i class="fas fa-edit me-2"></i>Edit Absensi
+                                                    </h5>
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <form action="/absensi/update/<%= a.id %>" method="POST">
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-semibold">Mahasiswa</label>
+                                                            <select name="mahasiswa_id" class="form-select form-select-custom" required>
+                                                                <% mahasiswa.forEach(m => { %>
+                                                                    <option value="<%= m.id %>" <%= m.id === a.mahasiswa_id ? 'selected' : '' %>>
+                                                                        <%= m.nama %> (<%= m.nim %>)
+                                                                    </option>
+                                                                <% }) %>
+                                                            </select>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-semibold">Tanggal</label>
+                                                            <input type="date" name="tanggal" class="form-control form-control-custom" 
+                                                                   value="<%= a.tanggal.toISOString().split('T')[0] %>" required>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label fw-semibold">Status</label>
+                                                            <select name="status" class="form-select form-select-custom" required>
+                                                                <option value="Hadir" <%= a.status === 'Hadir' ? 'selected' : '' %>>✓ Hadir</option>
+                                                                <option value="Izin" <%= a.status === 'Izin' ? 'selected' : '' %>>⚠ Izin</option>
+                                                                <option value="Alpha" <%= a.status === 'Alpha' ? 'selected' : '' %>>✗ Alpha</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">
+                                                            <i class="fas fa-times me-2"></i>Batal
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary-custom">
+                                                            <i class="fas fa-save me-2"></i>Simpan
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal Delete -->
+                                    <div class="modal fade" id="deleteModal<%= a.id %>" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-danger">
+                                                    <h5 class="modal-title text-white">
+                                                        <i class="fas fa-exclamation-triangle me-2"></i>Konfirmasi Hapus
+                                                    </h5>
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Hapus data absensi:</p>
+                                                    <div class="alert alert-warning">
+                                                        <strong><%= a.nama %></strong><br>
+                                                        Tanggal: <%= new Date(a.tanggal).toLocaleDateString('id-ID') %><br>
+                                                        Status: <%= a.status %>
+                                                    </div>
+                                                </div>
+                                                <form action="/absensi/delete/<%= a.id %>" method="POST">
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">Batal</button>
+                                                        <button type="submit" class="btn btn-danger-custom">
+                                                            <i class="fas fa-trash me-2"></i>Hapus
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } else { %>
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Belum ada data absensi.</strong> Silakan input absensi menggunakan form di atas.
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

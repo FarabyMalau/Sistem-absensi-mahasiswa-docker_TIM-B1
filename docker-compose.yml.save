@@ -1,26 +1,30 @@
-version: "3.8"
+cd
+
+
+
+pwversion: "3.8"
 
 services:
   db_service:
     image: mysql:8.0
-    container_name: db_TIM_B1
+    container_name: db_${GROUP_NAME}
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: absensi_db
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
     volumes:
       - db_data:/var/lib/mysql
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - absensi_net
 
   app_service:
     build: ./app
-    container_name: app_TIM_B1
+    container_name: app_${GROUP_NAME}
     restart: always
     env_file:
       - .env
-    ports:
-      - "3000:3000"
     expose:
       - "3000"
     depends_on:

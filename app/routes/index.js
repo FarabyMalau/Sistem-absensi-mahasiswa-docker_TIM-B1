@@ -1,1 +1,9 @@
-// TODO: Definisikan semua jalur (Route) aplikasi kalian disini (GET, POST, PUT, DELETE)
+const express = require("express");
+const router = express.Router();
+
+// Homepage route
+router.get("/", (req, res) => {
+  res.render("index");
+});
+
+module.exports = router;

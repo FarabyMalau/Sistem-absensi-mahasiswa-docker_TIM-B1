@@ -1,11 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Project Tekser</title>
-  </head>
-  <body>
-    <h1>Hello World! Silakan edit file ini.</h1>
-  </body>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Absensi Mahasiswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="hero-section">
+            <div class="hero-title">
+                🎓 Sistem Absensi Mahasiswa
+            </div>
+            <div class="hero-subtitle">
+                Platform Digital untuk Manajemen Kehadiran Mahasiswa
+            </div>
+            <p style="color: #9CA3AF; font-size: 1rem;">Kelola data mahasiswa dan absensi dengan mudah dan efisien</p>
+            <div class="mt-4">
+                <span class="badge-feature">✓ Docker Based</span>
+                <span class="badge-feature">✓ Real-time</span>
+                <span class="badge-feature">✓ Secure</span>
+            </div>
+            <div class="hero-badge">
+                <i class="fas fa-check-circle"></i> Kelompok 1 - Kelas B
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="menu-card">
+                    <div class="menu-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="menu-title">Data Mahasiswa</div>
+                    <div class="menu-desc">
+                        Kelola informasi lengkap mahasiswa termasuk NIM, nama, dan kelas
+                    </div>
+                    <a href="/mahasiswa" class="btn-custom">
+                        <i class="fas fa-arrow-right me-2"></i>Kelola Data
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="menu-card">
+                    <div class="menu-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div class="menu-title">Data Absensi</div>
+                    <div class="menu-desc">
+                        Monitor dan kelola rekap kehadiran mahasiswa secara real-time
+                    </div>
+                    <a href="/absensi" class="btn-custom btn-success-custom">
+                        <i class="fas fa-arrow-right me-2"></i>Lihat Absensi
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div style="font-size: 1.1rem; font-weight: 600; color: #1F2937; margin-bottom: 10px;">
+                <i class="fas fa-graduation-cap"></i> Final Project Teknologi Server
+            </div>
+            <div>Kelompok 1 | Kelas B | 2026</div>
+            <div class="mt-3" style="font-size: 0.9rem;">
+                <span class="badge-feature">🐳 Docker</span>
+                <span class="badge-feature">🚀 Node.js</span>
+                <span class="badge-feature">🗄️ MySQL</span>
+                <span class="badge-feature">🌐 Nginx</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
